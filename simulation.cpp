@@ -118,43 +118,6 @@ void updateWorld()
     }
 }
 
-species getSpeciesFromMetaCommunity()
-{
-  double rand = uniform();
-
-  int min = 0;
-  int max = metaCommunity.size() - 1;
-  int med = (int)((max+min)*0.5);
-  while((max-min) > 1)
-    {
-      if(metaCommunity[med].fraction > rand) max = med;
-      else min = med;
-
-      med = (int)((max+min)*0.5);
-    }
-  if(metaCommunity[med].fraction < rand) return metaCommunity[max];
-  else return metaCommunity[med];
-}
-
-int getSpeciesIndex()
-{
-  double rand = uniform();
-  int min = 0;
-  int max = metaCommunity.size() - 1;
-  int med = (int)((max+min)*0.5);
-  while((max-min) > 1)
-    {
-      if(metaCommunity[med].fraction > rand) max = med;
-      else min = med;
-
-      med = (int)((max+min)*0.5);
-    }
-  if(metaCommunity[med].fraction < rand) return max;
-  else return med;
-
-}
-
-
 
 void Initialize()
 {

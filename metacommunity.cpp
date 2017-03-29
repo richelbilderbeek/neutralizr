@@ -118,6 +118,50 @@ std::vector<species> create_meta_species(const metacommunity_parameters& p)
   return v;
 }
 
+species getSpeciesFromMetaCommunity(
+  const metacommunity& m,
+  std::mt19937& rng_engine
+)
+{
+  std::uniform_real_distribution<double> d(0.0, 1.0);
+  const double rand{d(rng_engine)};
+
+  int min = 0;
+  int max = m.get_species().size() - 1;
+  int med = (int)((max+min)*0.5);
+  while((max-min) > 1)
+    {
+      if(m.get_species()[med].fraction > rand) max = med;
+      else min = med;
+
+      med = (int)((max+min)*0.5);
+    }
+  if(m.get_species()[med].fraction < rand) return m.get_species()[max];
+  else return m.get_species()[med];
+}
+
+int getSpeciesIndex(
+  const metacommunity& m,
+  std::mt19937& rng_engine
+)
+{
+  std::uniform_real_distribution<double> d(0.0, 1.0);
+  const double rand{d(rng_engine)};
+  int min = 0;
+  int max = m.get_species().size() - 1;
+  int med = (int)((max+min)*0.5);
+  while((max-min) > 1)
+    {
+      if(m.get_species()[med].fraction > rand) max = med;
+      else min = med;
+
+      med = (int)((max+min)*0.5);
+    }
+  if(m.get_species()[med].fraction < rand) return max;
+  else return med;
+
+}
+
 double sum_fractions(const metacommunity& c) noexcept
 {
   return sum_fractions(c.get_species());

@@ -2,6 +2,7 @@
 #define METACOMMUNITY_H
 
 #include <iosfwd>
+#include <random>
 #include <vector>
 #include "species.h"
 
@@ -30,6 +31,17 @@ int count_individuals(const metacommunity& m) noexcept;
 std::vector<int> create_meta_abundances(const metacommunity_parameters& p);
 
 std::vector<species> create_meta_species(const metacommunity_parameters& p);
+
+///Pick a random species from the metacommunity
+species getSpeciesFromMetaCommunity(
+  const metacommunity& m,
+  std::mt19937& rng_engine
+);
+
+int getSpeciesIndex(
+  const metacommunity& m,
+  std::mt19937& rng_engine
+);
 
 double sum_fractions(const metacommunity& c) noexcept;
 
