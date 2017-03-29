@@ -53,6 +53,19 @@ std::tuple<int, int, int> create_rgb(const int x)
   return {0,0,0};
 }
 
+double sum_fractions(const std::vector<species>& v) noexcept
+{
+  return std::accumulate(
+    std::begin(v),
+    std::end(v),
+    0,
+    [](const int sum, const auto& s)
+    {
+      return sum + s.get_fraction();
+    }
+  );
+}
+
 bool operator==(const species& lhs, const species& rhs) noexcept
 {
   return lhs.get_id() == rhs.get_id();

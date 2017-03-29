@@ -31,6 +31,8 @@ std::vector<int> create_meta_abundances(const metacommunity_parameters& p);
 
 std::vector<species> create_meta_species(const metacommunity_parameters& p);
 
+double sum_fractions(const metacommunity& c) noexcept;
+
 std::ostream& operator<<(std::ostream& os, const metacommunity& c) noexcept;
 
 #endif // METACOMMUNITY_H

@@ -21,6 +21,9 @@ public:
   ///Get the number of individuals this species consists of
   int get_count() const noexcept { return count; }
 
+  ///Get the fraction of individuals (out of all species) this species consists of
+  int get_fraction() const noexcept { return fraction; }
+
   double fraction;
 
   ///Number of individuals this species consists of
@@ -42,6 +45,8 @@ species create_new_species();
 
 /// Create a color following the rainbow
 std::tuple<int, int, int> create_rgb(const int x);
+
+double sum_fractions(const std::vector<species>& s) noexcept;
 
 bool operator==(const species &lhs, const species &rhs) noexcept;
 bool operator!=(const species &lhs, const species &rhs) noexcept;

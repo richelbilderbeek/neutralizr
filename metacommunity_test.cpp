@@ -13,6 +13,7 @@ BOOST_AUTO_TEST_CASE(metacommunity_use)
     metacommunity_parameters(size, rng_seed, theta)
   );
   BOOST_CHECK_EQUAL(size, count_individuals(m));
+  BOOST_CHECK_CLOSE(1.0, sum_fractions(m), 0.0001);
 }
 
 BOOST_AUTO_TEST_CASE(metacommunity_of_two_should_work)
@@ -24,9 +25,9 @@ BOOST_AUTO_TEST_CASE(metacommunity_of_two_should_work)
     metacommunity_parameters(size, rng_seed, theta)
   );
   BOOST_CHECK_EQUAL(size, count_individuals(m));
+  BOOST_CHECK_CLOSE(1.0, sum_fractions(m), 0.0001);
 }
 
-/*
 
 BOOST_AUTO_TEST_CASE(metacommunity_of_one_should_work)
 {
@@ -37,6 +38,7 @@ BOOST_AUTO_TEST_CASE(metacommunity_of_one_should_work)
     metacommunity_parameters(size, rng_seed, theta)
   );
   BOOST_CHECK_EQUAL(size, count_individuals(m));
+  BOOST_CHECK_CLOSE(1.0, sum_fractions(m), 0.0001);
 }
 
 BOOST_AUTO_TEST_CASE(empty_metacommunity_should_work)
@@ -49,4 +51,3 @@ BOOST_AUTO_TEST_CASE(empty_metacommunity_should_work)
   );
   BOOST_CHECK_EQUAL(size, count_individuals(m));
 }
-*/

@@ -69,33 +69,35 @@ std::vector<int> create_meta_abundances(const metacommunity_parameters& p)
 
 std::vector<species> create_meta_species(const metacommunity_parameters& p)
 {
-  const int size{p.get_size()};
+  const std::vector<int> abundances = create_meta_abundances(p);
 
+  //Create species with desired abundances
   std::vector<species> v;
-
-  const std::vector<int> abund = create_meta_abundances(p);
-
-  assert(size > 1);
-  const double multiply = 1.0 / static_cast<double>(size - 1.0);
-
-
-  for(std::size_t i = 0; i < abund.size() ;++i)
+  std::transform(
+    std::begin(abundances),
+    std::end(abundances),
+    std::back_inserter(v),
+    [](const int n_individuals)
     {
-      species newS;
-      newS.fraction = abund[i] * multiply;
-      newS.count = abund[i];
-
-      v.push_back(newS);
+      species s;
+      s.count = n_individuals;
+      return s;
     }
+  );
 
   //remove all empty species
-  std::vector<species> temp;
-  for(std::vector<species>::iterator m = v.begin(); m != v.end(); ++m)
-  {
-    if((*m).count > 0) temp.push_back((*m));
-  }
-  v = temp;
+  const auto new_end =
+    std::remove_if(
+      std::begin(v),
+      std::end(v),
+      [](const species& s)
+      {
+        return s.count == 0;
+      }
+    );
+  v.erase(new_end, std::end(v));
 
+  //sort species by anbundance
   std::sort(
     v.begin(),
     v.end(),
@@ -104,15 +106,21 @@ std::vector<species> create_meta_species(const metacommunity_parameters& p)
       return lhs.count < rhs.count;
     }
   );
-  //update fractions
-  double cumsum = 0.0;
-  for(std::vector<species>::iterator it = v.begin(); it != v.end(); ++it)
+  //set fractions
+  double sum_f{0.0};
+  for (species& s: v)
   {
-    double add = 1.0 * (*it).count / size;
-    cumsum += add;
-    (*it).fraction = cumsum;
+    const double sz{static_cast<double>(p.get_size())};
+    const double f{static_cast<double>(s.count) / sz};
+    sum_f += f;
+    s.fraction = sum_f;
   }
   return v;
+}
+
+double sum_fractions(const metacommunity& c) noexcept
+{
+  return sum_fractions(c.get_species());
 }
 
 std::ostream& operator<<(std::ostream& os, const metacommunity& c) noexcept
